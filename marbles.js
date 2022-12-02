@@ -156,14 +156,6 @@
             console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
           }
         },
-        checkGameIsFinished () {
-          if (desk.playerQuestionNumber === null) {
-            return gameFlow.ifCancelGame;
-          } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
-            desk.checkWinConditions();
-            return gameFlow.continueGame;
-          }
-        },
       };
 
       if (firstMove === null) {
@@ -174,13 +166,12 @@
         desk.playerQuestionMove;
         desk.botAnswerMove;
 
-        gameFlow.checkGameIsFinished();
-        // if (desk.playerQuestionNumber === null) {
-        //   return gameFlow.ifCancelGame;
-        // } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
-        //   desk.checkWinConditions();
-        //   return gameFlow.continueGame;
-        // }
+        if (desk.playerQuestionNumber === null) {
+          return gameFlow.ifCancelGame;
+        } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
+          desk.checkWinConditions();
+          return gameFlow.continueGame;
+        }
 
         desk.compareBotAnswer();
         gameFlow.printLogs('PLAYER');
