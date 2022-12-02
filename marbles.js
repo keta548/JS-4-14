@@ -132,8 +132,7 @@
           if (confirm(`Хотите сыграть еще?`)) {
             desk.playerBalls = 5;
             desk.botBalls = 5;
-            // return this.reset = true;
-            return gameMarbles(); // Перезапуск игры
+            return gameMarblesStart(); // Перезапуск игры
           } else {
             return alert('Хорошего дня!');
           }
@@ -142,36 +141,55 @@
             if (confirm(`Продолжить?`)) {
               return gameMarblesStart();
             } else {
-              // this.reset = false;
               return desk.printCurrentResults;
             }
       },
-        reset: false,
+        printLogs(side) {
+          if (side === 'BOT') {
+            console.log('botQuestion', desk.botQuestionNumber);
+            console.log('playerAnswer', desk.playerQuestionAnswer);
+            console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
+
+          } else if (side ==='PLAYER') {
+            console.log('playerQuestion', desk.playerQuestionNumber);
+            console.log('botAnswer', desk.botQuestionAnswer);
+            console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
+          }
+        },
+        checkGameIsFinished () {
+          if (desk.playerQuestionNumber === null) {
+            return gameFlow.ifCancelGame;
+          } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
+            desk.checkWinConditions();
+            return gameFlow.continueGame;
+          }
+        },
       };
-      // export let gameReset = gameFlow.reset;
 
       if (firstMove === null) {
           return alert('Поиграем в марблы в другой раз!');
+
       } else if (firstMove !== 'botFirst') {
 
         desk.playerQuestionMove;
         desk.botAnswerMove;
 
-        if (desk.playerQuestionNumber === null) {
-          return gameFlow.ifCancelGame;
-        } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
-          desk.checkWinConditions();
-          return gameFlow.continueGame;
-        }
+        gameFlow.checkGameIsFinished();
+        // if (desk.playerQuestionNumber === null) {
+        //   return gameFlow.ifCancelGame;
+        // } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
+        //   desk.checkWinConditions();
+        //   return gameFlow.continueGame;
+        // }
+
         desk.compareBotAnswer();
-        console.log('playerQuestion', desk.playerQuestionNumber);
-        console.log('botAnswer', desk.botQuestionAnswer);
-        console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
+        gameFlow.printLogs('PLAYER');
 
         if (desk.playerBalls === 0 || desk.botBalls === 0) {
           desk.checkWinConditions();
           return gameFlow.continueGame;
         }
+
         desk.botQuestionMove();
         desk.playerAnswerMove;
         desk.comparePlayerAnswer();
@@ -180,40 +198,40 @@
           desk.checkWinConditions();
           return gameFlow.continueGame;
         }
-        console.log('botQuestion', desk.botQuestionNumber);
-        console.log('playerAnswer', desk.playerQuestionAnswer);
-        console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
+        gameFlow.printLogs('BOT');
 
-      } else {
+      }
+
+      else {
         desk.botQuestionMove();
         desk.playerAnswerMove;
         desk.comparePlayerAnswer();
+
         if (desk.playerBalls === 0 || desk.botBalls === 0) {
           desk.checkWinConditions();
           return gameFlow.continueGame;
         }
-        console.log('botQuestion', desk.botQuestionNumber);
-        console.log('playerAnswer', desk.playerQuestionAnswer);
-        console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
-
+        gameFlow.printLogs('BOT');
 
         desk.playerQuestionMove;
         desk.botAnswerMove;
+
         if (desk.playerQuestionNumber === null) {
           return gameFlow.ifCancelGame;
         } else if (desk.playerBalls === 0 || desk.botBalls === 0) {
           desk.checkWinConditions();
           return gameFlow.continueGame;
         }
+
         desk.compareBotAnswer();
-        console.log('playerQuestion', desk.playerQuestionNumber);
-        console.log('botAnswer', desk.botQuestionAnswer);
-        console.log(`ИГРОК ${desk.playerBalls} БОТ ${desk.botBalls}`);
+        gameFlow.printLogs('PLAYER');
+
         if (desk.playerBalls === 0 || desk.botBalls === 0) {
           desk.checkWinConditions();
           return gameFlow.continueGame;
         }
       }
+
     return gameMarblesStart();
     };
   };

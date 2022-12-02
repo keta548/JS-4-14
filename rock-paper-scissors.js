@@ -27,10 +27,14 @@
             this.playerAnswer = prompt(`${lang.slice(0,3)}`, );
             if (this.playerAnswer === null) {
               return;
-            } else if (this.playerAnswer[0].toLowerCase() === `${lang[0][0]}`
-              || this.playerAnswer[0].toLowerCase() === `${lang[1][0]}`
-              || this.playerAnswer[0].toLowerCase() === `${lang[2][0]}`) {
-              return;
+            } else if (this.playerAnswer[0].toLowerCase() === `${lang[0][0]}`) {
+              return this.playerAnswer = `${lang[0]}`;
+            }
+            else if (this.playerAnswer[0].toLowerCase() === `${lang[1][0]}`) {
+              return this.playerAnswer = `${lang[1]}`;
+            }
+            else if (this.playerAnswer[0].toLowerCase() === `${lang[2][0]}`) {
+              return this.playerAnswer = `${lang[2]}`;
             }
             this.PlayerAnswer;
           },
